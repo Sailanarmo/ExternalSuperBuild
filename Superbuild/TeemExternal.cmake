@@ -26,17 +26,22 @@
 
 SET_PROPERTY(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
 SET(teem_GIT_TAG "origin/master")
-SET(teem_DEPENDENCIES "Zlib_external;LibPNG_external")
+SET(teem_DEPENDENCIES "Zlib_external_download;LibPNG_external_download")
+
+set(zlibincludedir "${Zlib_LIBRARY_DIR};${Zlib_INCLUDE_DIR}")
+set(libpnginclude "${LibPNG_LIBRARY_DIR};${LibPNG_INCLUDE_DIR}")
 
 # If CMake ever allows overriding the checkout command or adding flags,
 # git checkout -q will silence message about detached head (harmless).
-ExternalProject_Add(Teem_external
+ExternalProject_Add(Teem_external_download
   DEPENDS ${teem_DEPENDENCIES}
-  GIT_REPOSITORY "https://github.com/SCIInstitute/teem.git"
+  GIT_REPOSITORY "https://github.com/Sailanarmo/teem.git"
   GIT_TAG ${teem_GIT_TAG}
   PATCH_COMMAND ""
   INSTALL_DIR ""
   INSTALL_COMMAND ""
+  CMAKE_ARGS ${Teem_external_download_CMAKE_ARGS} 
+    -DCMAKE_PREFIX_PATH="${Zlib_LIBRARY_DIR};${LibPNG_LIBRARY_DIR}"
   CMAKE_CACHE_ARGS
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=${CMAKE_VERBOSE_MAKEFILE}
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
@@ -44,9 +49,15 @@ ExternalProject_Add(Teem_external
     -DZlib_DIR:PATH=${Zlib_DIR}
     -DLibPNG_DIR:PATH=${LibPNG_DIR}
     -DTeem_USE_NRRD_INTERNALS:BOOL=ON
+    -DZLIB_INCLUDE_DIR:PATH=${Zlibincludes}
+    -DPNG_INCLUDE_DIR:PATH=${libpnginclude}
 )
 
-ExternalProject_Get_Property(Teem_external BINARY_DIR)
+ExternalProject_Get_Property(Teem_external_download BINARY_DIR)
 SET(Teem_DIR ${BINARY_DIR} CACHE PATH "")
+
+set(Teem_INCLUDE_DIR "${Teem_DIR}/include" CACHE PATH "")
+
+add_library(Teem_external STATIC IMPORTED)
 
 MESSAGE(STATUS "Teem_DIR: ${Teem_DIR}")

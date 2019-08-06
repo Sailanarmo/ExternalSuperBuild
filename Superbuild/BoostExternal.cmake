@@ -27,7 +27,7 @@ ExternalProject_Add(Boost_external_Download
     --with-chrono
     --with-filesystem
     --disable-icu
-    --prefix=${CMAKE_BINARY_DIR}/Externals/Boost
+    --prefix=${CMAKE_BINARY_DIR}/Boost
     --threading=single,multi
     --link=shared
     --variant=release
@@ -38,11 +38,12 @@ ExternalProject_Add(Boost_external_Download
 
 #CACHE PATH "" seems to write the path to a file that I can set 
 #library paths to. 
-set(Boost_LIBRARY_DIR ${CMAKE_BINARY_DIR}/Externals/Boost/lib CACHE PATH "")
-set(Boost_INCLUDE_DIR ${CMAKE_BINARY_DIR}/Externals/Boost/include CACHE PATH "")
+set(Boost_LIBRARY_DIR ${CMAKE_BINARY_DIR}/Boost/lib CACHE PATH "")
+set(Boost_INCLUDE_DIR ${CMAKE_BINARY_DIR}/Boost/include CACHE PATH "")
 
 ExternalProject_Get_Property(Boost_external_Download BINARY_DIR)
 SET(Boost_DIR ${BINARY_DIR} CACHE PATH "")
 
 add_library(Boost_external SHARED IMPORTED)
-set_target_properties(Boost_external PROPERTIES IMPORTED_LOCATION ${Boost_LIBRARY_DIR}/libBoost_external.so)
+
+message(STATUS "Boost_DIR: ${Boost_DIR}")

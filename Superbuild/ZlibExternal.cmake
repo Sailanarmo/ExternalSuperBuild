@@ -27,15 +27,10 @@
 SET_PROPERTY(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
 SET(zlib_GIT_TAG "origin/master")
 
-IF(TRAVIS_BUILD)
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
-  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w")
-ENDIF()
-
 # If CMake ever allows overriding the checkout command or adding flags,
 # git checkout -q will silence message about detached head (harmless).
-ExternalProject_Add(Zlib_external
-  GIT_REPOSITORY "https://github.com/CIBC-Internal/zlib.git"
+ExternalProject_Add(Zlib_external_download
+  GIT_REPOSITORY "https://github.com/madler/zlib.git"
   GIT_TAG ${zlib_GIT_TAG}
   PATCH_COMMAND ""
   INSTALL_DIR ""
@@ -49,7 +44,12 @@ ExternalProject_Add(Zlib_external
     -DDO_ZLIB_MANGLE:BOOL=${DO_ZLIB_MANGLE}
 )
 
-ExternalProject_Get_Property(Zlib_external BINARY_DIR)
-SET(Zlib_DIR ${BINARY_DIR} CACHE PATH "")
+ExternalProject_Get_Property(Zlib_external_download BINARY_DIR)
+ExternalProject_Get_Property(Zlib_external_download SOURCE_DIR)
 
-MESSAGE(STATUS "Zlib_DIR: ${Zlib_DIR}")
+SET(Zlib_LIBRARY_DIR ${BINARY_DIR} CACHE PATH "")
+SET(Zlib_INCLUDE_DIR ${SOURCE_DIR} CACHE PATH "")
+
+add_library(Zlib STATIC IMPORTED)
+
+MESSAGE(STATUS "Zlib_LIBRARY_DIR: ${Zlib_LIBRARY_DIR}")
