@@ -10,6 +10,11 @@ include_directories(${Teem_INCLUDE_DIR})
 
 add_executable(Main main.cpp)
 target_link_libraries(Main ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+
+if(WIN32)
+  target_link_libraries(Main ws2_32)
+endif()
+
 add_dependencies(Main 
   Zlib_external_download 
   LibPNG_external_download 
