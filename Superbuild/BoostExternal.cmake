@@ -1,24 +1,27 @@
 #---------------------------------------------------------------------------
 # Get and build boost
 
+
 SET_PROPERTY(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
 SET(boost_GIT_TAG "origin/master")
 set( Boost_Bootstrap_Command )
 
 if( UNIX )
+  set( Boost_url "http://dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.tar.gz")
+  set( Boost_Hash "SHA256=882b48708d211a5f48e60b0124cf5863c1534cd544ecd0664bb534a4b5d506e9")
   set( Boost_Bootstrap_Command ./bootstrap.sh )
   set( Boost_b2_Command ./b2 )
-else()
-  if( WIN32 )
+elseif( WIN32 )
+    set( Boost_url "http://dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.zip")
+    set( Boost_Hash "SHA256=48f379b2e90dd1084429aae87d6bdbde9670139fa7569ee856c8c86dd366039d")
     set( Boost_Bootstrap_Command bootstrap.bat )
-    set( Boost_b2_Command b2.exe)
-  endif()
+    set( Boost_b2_Command b2.exe )
 endif()
 
 if(WIN32)
   ExternalProject_Add(Boost_external_Download
-    GIT_REPOSITORY "https://github.com/Sailanarmo/boost.git"
-    GIT_TAG ${boost_GIT_TAG}
+    URL ${Boost_url}
+    URL_HASH ${Boost_Hash}
     BUILD_IN_SOURCE 1
     UPDATE_COMMAND ""
     PATCH_COMMAND ""
@@ -39,8 +42,8 @@ if(WIN32)
   )
 else()
   ExternalProject_Add(Boost_external_Download
-    GIT_REPOSITORY "https://github.com/Sailanarmo/boost.git"
-    GIT_TAG ${boost_GIT_TAG}
+    URL ${Boost_url}
+    URL_HASH ${Boost_Hash}
     BUILD_IN_SOURCE 1
     UPDATE_COMMAND ""
     PATCH_COMMAND ""
@@ -64,14 +67,17 @@ endif()
 #library paths to. 
 
 set(Boost_LIBRARY_DIR ${CMAKE_BINARY_DIR}/Boost/lib CACHE PATH "")
+
 if(WIN32)
-  set(Boost_INCLUDE_DIR ${CMAKE_BINARY_DIR}/Boost/include/boost-1_69 CACHE PATH "")
+  set(Boost_INCLUDE_DIR ${CMAKE_BINARY_DIR}/Boost/include/boost-1_70 CACHE PATH "")
+  set(BOOST_ROOT ${CMAKE_BINARY_DIR}/Boost CACHE PATH "")
 else()
   set(Boost_INCLUDE_DIR ${CMAKE_BINARY_DIR}/Boost/include CACHE PATH "")
 endif()
+
 ExternalProject_Get_Property(Boost_external_Download BINARY_DIR)
 SET(Boost_DIR ${BINARY_DIR} CACHE PATH "")
 
-add_library(Boost_external SHARED IMPORTED)
+add_library(Boost_external STATIC IMPORTED)
 
 message(STATUS "Boost_DIR: ${Boost_DIR}")
