@@ -28,8 +28,22 @@ SET_PROPERTY(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
 SET(libpng_GIT_TAG "origin/master")
 SET(libpng_DEPENDENCIES "Zlib_external_download")
 
+
+# -DZLIB_LIBRARY=Zlib
+#[[
+message(STATUS ${CMAKE_BUILD_TYPE})
+
+]]
 #needs to be combined here or the cmake file will not find zlib
 set(Zlibincludes "${Zlib_LIBRARY_DIR};${Zlib_INCLUDE_DIR}")
+
+if(MSVC)
+  if(EXISTS ${Zlib_LIBRARY_DIR}/Debug)
+    set(Zlib_LIBRARY_DIR ${Zlib_LIBRARY_DIR}/Debug)
+  elseif(EXISTS ${Zlib_LIBRARY_DIR}/Release)
+    set(Zlib_LIBRARY_DIR ${Zlib_LIBRARY_DIR}/Release)
+  endif()
+endif()
 
 # If CMake ever allows overriding the checkout command or adding flags,
 # git checkout -q will silence message about detached head (harmless).
