@@ -15,9 +15,16 @@ if(WIN32)
   target_link_libraries(Main ws2_32)
 endif()
 
+#[[
 add_dependencies(Main 
   Zlib_external_download 
   LibPNG_external_download 
   Teem_external_download
   Boost_external_Download
+  )
+]]
+
+add_dependencies(Main
+  Zlib
+  LibPNG_external
   )

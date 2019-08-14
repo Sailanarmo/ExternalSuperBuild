@@ -66,17 +66,17 @@ endif()
 #CACHE PATH "" seems to write the path to a file that I can set 
 #library paths to. 
 
-set(Boost_LIBRARY_DIR ${CMAKE_BINARY_DIR}/Boost/lib CACHE PATH "")
+set(Boost_LIBRARY_DIR ${CMAKE_BINARY_DIR}/Boost/lib CACHE INTERNAL "")
 
 if(WIN32)
-  set(Boost_INCLUDE_DIR ${CMAKE_BINARY_DIR}/Boost/include/boost-1_70 CACHE PATH "")
-  set(BOOST_ROOT ${CMAKE_BINARY_DIR}/Boost CACHE PATH "")
+  set(Boost_INCLUDE_DIR ${CMAKE_BINARY_DIR}/Boost/include/boost-1_70 CACHE INTERNAL "")
+  set(BOOST_ROOT ${CMAKE_BINARY_DIR}/Boost CACHE INTERNAL "")
 else()
-  set(Boost_INCLUDE_DIR ${CMAKE_BINARY_DIR}/Boost/include CACHE PATH "")
+  set(Boost_INCLUDE_DIR ${CMAKE_BINARY_DIR}/Boost/include CACHE INTERNAL "")
 endif()
 
 ExternalProject_Get_Property(Boost_external_Download BINARY_DIR)
-SET(Boost_DIR ${BINARY_DIR} CACHE PATH "")
+SET(Boost_DIR ${BINARY_DIR} CACHE INTERNAL "")
 
 add_library(Boost_external STATIC IMPORTED)
 

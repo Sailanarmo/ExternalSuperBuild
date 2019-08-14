@@ -26,22 +26,20 @@
 
 SET_PROPERTY(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
 SET(libpng_GIT_TAG "origin/master")
-SET(libpng_DEPENDENCIES "Zlib_external_download")
+SET(libpng_DEPENDENCIES "Zlib")
 
 
-# -DZLIB_LIBRARY=Zlib
-#[[
-message(STATUS ${CMAKE_BUILD_TYPE})
-
-]]
 #needs to be combined here or the cmake file will not find zlib
 set(Zlibincludes "${Zlib_LIBRARY_DIR};${Zlib_INCLUDE_DIR}")
 
+
 if(MSVC)
-  if(EXISTS ${Zlib_LIBRARY_DIR}/Debug)
-    set(Zlib_LIBRARY_DIR ${Zlib_LIBRARY_DIR}/Debug)
-  elseif(EXISTS ${Zlib_LIBRARY_DIR}/Release)
-    set(Zlib_LIBRARY_DIR ${Zlib_LIBRARY_DIR}/Release)
+  set(MSVS_D_R ${Zlib_LIBRARY_DIR})
+  if(EXISTS ${MSVS_D_R}/Debug)
+    set(Zlib_LIBRARY_DIR "${Zlib_LIBRARY_DIR};${Zlib_LIBRARY_DIR}/Debug" CACHE INTERNAL "")
+  endif()
+  if(EXISTS ${MSVS_D_R}/Release)
+    set(Zlib_LIBRARY_DIR "${Zlib_LIBRARY_DIR};${Zlib_LIBRARY_DIR}/Release" CACHE INTERNAL "")
   endif()
 endif()
 
@@ -68,8 +66,8 @@ ExternalProject_Add(LibPNG_external_download
 
 ExternalProject_Get_Property(LibPNG_external_download BINARY_DIR)
 ExternalProject_Get_Property(LibPNG_external_download SOURCE_DIR)
-SET(LibPNG_LIBRARY_DIR ${BINARY_DIR} CACHE PATH "")
-SET(LibPNG_INCLUDE_DIR ${SOURCE_DIR} CACHE PATH "")
+SET(LibPNG_LIBRARY_DIR ${BINARY_DIR} CACHE INTERNAL "")
+SET(LibPNG_INCLUDE_DIR ${SOURCE_DIR} CACHE INTERNAL "")
 
 add_library(LibPNG_external STATIC IMPORTED)
 
