@@ -34,7 +34,7 @@ if(WIN32)
       --disable-icu
       --prefix=${CMAKE_BINARY_DIR}/Boost
       --threading=single,multi
-      --link=shared
+      --link=static
       --variant=release
       -j8
     INSTALL_COMMAND ""
@@ -55,7 +55,7 @@ else()
       --disable-icu
       --prefix=${CMAKE_BINARY_DIR}/Boost
       --threading=single,multi
-      --link=shared
+      --link=static
       --variant=release
       -j8
     INSTALL_COMMAND ""
