@@ -27,4 +27,5 @@ add_dependencies(Main
 add_dependencies(Main
   Zlib
   LibPNG_external
+  Teem_external
   )

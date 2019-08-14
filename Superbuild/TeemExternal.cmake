@@ -30,14 +30,11 @@ SET(teem_DEPENDENCIES "Zlib;LibPNG_external")
 
 set(zlibincludedir "${Zlib_LIBRARY_DIR};${Zlib_INCLUDE_DIR}")
 set(libpnginclude "${LibPNG_LIBRARY_DIR};${LibPNG_INCLUDE_DIR}")
+set(Master_Depends ${Zlib_LIBRARY_DIR} ${LibPNG_LIBRARY_DIR})
+message(STATUS ${Master_Depends})
 
-if(MSVC)
-  string(REPLACE ";" "|" Zlib_Root "${Zlib_LIBRARY_DIR}")
-  string(REPLACE ";" "|" LibPNG_Root "${LibPNG_LIBRARY_DIR}")
-else()
-  set(Zlib_Root ${Zlib_LIBRARY_DIR})
-  set(LibPNG_Root ${LibPNG_LIBRARY_DIR})
-endif()
+string(REPLACE ";" "|" Master_Root "${Master_Depends}")
+
 
 # If CMake ever allows overriding the checkout command or adding flags,
 # git checkout -q will silence message about detached head (harmless).
@@ -50,7 +47,7 @@ ExternalProject_Add(Teem_external_download
   INSTALL_COMMAND ""
   LIST_SEPARATOR |
   CMAKE_ARGS ${Teem_external_download_CMAKE_ARGS} 
-    -DCMAKE_PREFIX_PATH="${Zlib_Root};${LibPNG_Root}"
+    -DCMAKE_PREFIX_PATH=${Master_Root}
   CMAKE_CACHE_ARGS
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=${CMAKE_VERBOSE_MAKEFILE}
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
@@ -60,6 +57,7 @@ ExternalProject_Add(Teem_external_download
     -DTeem_USE_NRRD_INTERNALS:BOOL=ON
     -DZLIB_INCLUDE_DIR:PATH=${Zlibincludes}
     -DPNG_INCLUDE_DIR:PATH=${libpnginclude}
+	-DPNG_PNG_INCLUDE_DIR:PATH=${libpnginclude}
 )
 
 ExternalProject_Get_Property(Teem_external_download BINARY_DIR)
