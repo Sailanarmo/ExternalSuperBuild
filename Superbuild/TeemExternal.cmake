@@ -68,7 +68,7 @@ else()
   SET(Teem_DIR ${BINARY_DIR} CACHE INTERNAL "")
 endif()
 
-set(Teem_INCLUDE_DIR "${Teem_DIR}/include" CACHE INTERNAL "")
+set(Teem_INCLUDE_DIR "${BINARY_DIR}/include" CACHE INTERNAL "")
 
 add_library(Teem_external STATIC IMPORTED)
 
