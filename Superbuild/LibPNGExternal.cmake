@@ -34,13 +34,8 @@ set(Zlibincludes "${Zlib_LIBRARY_DIR};${Zlib_INCLUDE_DIR}")
 
 
 if(MSVC)
-  set(MSVS_D_R ${Zlib_LIBRARY_DIR})
-  if(EXISTS ${MSVS_D_R}/Debug)
-    set(Zlib_LIBRARY_DIR "${Zlib_LIBRARY_DIR};${Zlib_LIBRARY_DIR}/Debug" CACHE INTERNAL "")
-  endif()
-  if(EXISTS ${MSVS_D_R}/Release)
-    set(Zlib_LIBRARY_DIR "${Zlib_LIBRARY_DIR};${Zlib_LIBRARY_DIR}/Release" CACHE INTERNAL "")
-  endif()
+  set(Zlib_LIBRARY_DIR "${Zlib_LIBRARY_DIR};${Zlib_LIBRARY_DIR}/Debug" CACHE INTERNAL "")
+  set(Zlib_LIBRARY_DIR "${Zlib_LIBRARY_DIR};${Zlib_LIBRARY_DIR}/Release" CACHE INTERNAL "")
 endif()
 
 # If CMake ever allows overriding the checkout command or adding flags,
