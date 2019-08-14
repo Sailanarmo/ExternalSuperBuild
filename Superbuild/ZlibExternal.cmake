@@ -48,7 +48,12 @@ ExternalProject_Add(Zlib_external_download
 ExternalProject_Get_Property(Zlib_external_download BINARY_DIR)
 ExternalProject_Get_Property(Zlib_external_download SOURCE_DIR)
 
-SET(Zlib_LIBRARY_DIR ${BINARY_DIR} CACHE INTERNAL "")
+if(MSVC)
+  SET(Zlib_LIBRARY_DIR "${BINARY_DIR};${BINARY_DIR}/Debug;${BINARY_DIR}/Release" CACHE INTERNAL "")
+else()
+  SET(Zlib_LIBRARY_DIR ${BINARY_DIR} CACHE INTERNAL "")
+endif()
+
 SET(Zlib_INCLUDE_DIR ${SOURCE_DIR} CACHE INTERNAL "")
 
 add_library(Zlib STATIC IMPORTED)

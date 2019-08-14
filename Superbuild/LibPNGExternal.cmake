@@ -34,8 +34,9 @@ set(Zlibincludes "${Zlib_LIBRARY_DIR};${Zlib_INCLUDE_DIR}")
 
 
 if(MSVC)
-  set(Zlib_LIBRARY_DIR "${Zlib_LIBRARY_DIR};${Zlib_LIBRARY_DIR}/Debug" CACHE INTERNAL "")
-  set(Zlib_LIBRARY_DIR "${Zlib_LIBRARY_DIR};${Zlib_LIBRARY_DIR}/Release" CACHE INTERNAL "")
+  string(REPLACE ";" "|" Zlib_Root "${Zlib_LIBRARY_DIR}")
+else()
+  set(Zlib_Root ${Zlib_LIBRARY_DIR})
 endif()
 
 # If CMake ever allows overriding the checkout command or adding flags,
@@ -47,7 +48,8 @@ ExternalProject_Add(LibPNG_external_download
   PATCH_COMMAND ""
   INSTALL_DIR ""
   INSTALL_COMMAND ""
-  CMAKE_ARGS ${LibPNG_external_CMAKE_ARGS} -DCMAKE_PREFIX_PATH=${Zlib_LIBRARY_DIR}
+  LIST_SEPARATOR |
+  CMAKE_ARGS ${LibPNG_external_CMAKE_ARGS} -DCMAKE_PREFIX_PATH=${Zlib_Root}
   CMAKE_CACHE_ARGS
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=${CMAKE_VERBOSE_MAKEFILE}
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
@@ -61,7 +63,13 @@ ExternalProject_Add(LibPNG_external_download
 
 ExternalProject_Get_Property(LibPNG_external_download BINARY_DIR)
 ExternalProject_Get_Property(LibPNG_external_download SOURCE_DIR)
-SET(LibPNG_LIBRARY_DIR ${BINARY_DIR} CACHE INTERNAL "")
+
+if(MSVC)
+  SET(LibPNG_LIBRARY_DIR "${BINARY_DIR};${BINARY_DIR}/Debug;${BINARY_DIR}/Release" CACHE INTERNAL "")
+else()
+  SET(LibPNG_LIBRARY_DIR ${BINARY_DIR} CACHE INTERNAL "")
+endif()
+
 SET(LibPNG_INCLUDE_DIR ${SOURCE_DIR} CACHE INTERNAL "")
 
 add_library(LibPNG_external STATIC IMPORTED)
