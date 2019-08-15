@@ -1,31 +1,27 @@
-#---------------------------------------------------------------------------
-# Get and build boost
-
 
 SET_PROPERTY(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
 
 set( FFmpeg_url "https://github.com/FFmpeg/FFmpeg.git")
 set( FFmpeg_tag "n4.2")
 set( FFmpeg_config_command ./configure )
-set( Boost_b2_Command ./b2 )
+set( FFmpeg_build_command make )
 
-ExternalProject_Add(Boost_external_Download
-  URL ${Boost_url}
-  URL_HASH ${Boost_Hash}
-  BUILD_IN_SOURCE 1
+find_program(YASM_EXE NAMES yasm nasm)
+
+if(NOT YASM_EXE)
+  set(FFmpeg_depends "yasm_external_download")
+else()
+  set(FFmpeg_depends "")
+endif()
+
+ExternalProject_Add(FFmpeg_external_download
+  DEPENDS ${FFmpeg_depends}
+  GIT_REPOSITORY ${FFmpeg_url}
+  GIT_TAG ${FFmpeg_tag}
   UPDATE_COMMAND ""
   PATCH_COMMAND ""
-  CONFIGURE_COMMAND ${Boost_Bootstrap_Command} ${BoostToolset}
-  BUILD_COMMAND  ${Boost_b2_Command} install
-    -toolset=${BoostToolset}
-    --with-system
-    --with-chrono
-    --with-filesystem
-    --disable-icu
-    --prefix=${CMAKE_BINARY_DIR}/Boost
-    --threading=single,multi
-    --link=static
-    --variant=release
+  CONFIGURE_COMMAND <SOURCE_DIR>/configure
+  BUILD_COMMAND ${FFmpeg_build_command} 
     -j8
   INSTALL_COMMAND ""
   INSTALL_DIR ""
@@ -34,18 +30,17 @@ ExternalProject_Add(Boost_external_Download
 #CACHE PATH "" seems to write the path to a file that I can set 
 #library paths to. 
 
-set(FFmpeg_LIBRARY_DIR ${CMAKE_BINARY_DIR}/Boost/lib CACHE INTERNAL "")
+ExternalProject_Get_Property(FFmpeg_external_download BINARY_DIR)
+ExternalProject_Get_Property(FFmpeg_external_download SOURCE_DIR)
 
 if(WIN32)
-  set(Boost_INCLUDE_DIR ${CMAKE_BINARY_DIR}/Boost/include/boost-1_70 CACHE INTERNAL "")
-  set(BOOST_ROOT ${CMAKE_BINARY_DIR}/Boost CACHE INTERNAL "")
+  set(FFmpeg_LIBRARY_DIR "${BINARY_DIR};${BINARY_DIR}/Debug;${BINARY_DIR}/Release" CACHE INTERNAL "")
 else()
-  set(Boost_INCLUDE_DIR ${CMAKE_BINARY_DIR}/Boost/include CACHE INTERNAL "")
+  set(FFmpeg_LIBRARY_DIR ${BINARY_DIR} CACHE INTERNAL "")
 endif()
 
-ExternalProject_Get_Property(Boost_external_Download BINARY_DIR)
-SET(Boost_DIR ${BINARY_DIR} CACHE INTERNAL "")
+set(FFmpeg_INCLUDE_DIR ${SOURCE_DIR} CACHE INTERNAL "")
 
-add_library(Boost_external STATIC IMPORTED)
+add_library(FFmpeg_external STATIC IMPORTED)
 
-message(STATUS "Boost_DIR: ${Boost_DIR}")
+message(STATUS "FFmpeg_DIR: ${FFmpeg_LIBRARY_DIR}")

@@ -23,6 +23,7 @@ add_dependencies(Main
   Zlib_external_download 
   LibPNG_external_download 
   Teem_external_download
+  FFmpeg_external_download
   )
 
 #  Boost_external_Download

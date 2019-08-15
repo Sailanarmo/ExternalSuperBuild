@@ -8,10 +8,7 @@ if(WIN32)
   include(getCompiler.cmake)
 endif()
 
-include(externalReq.cmake)
-
 Project(TestSuperbuild)
-
 
 Include(${CMAKE_SOURCE_DIR}/Superbuild/Superbuild.cmake)
 
