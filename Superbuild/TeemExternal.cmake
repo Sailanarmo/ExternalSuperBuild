@@ -26,7 +26,7 @@
 
 SET_PROPERTY(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
 SET(teem_GIT_TAG "origin/master")
-SET(teem_DEPENDENCIES "Zlib;LibPNG_external")
+SET(teem_DEPENDENCIES "Zlib_external_download;LibPNG_external_download")
 
 set(zlibincludedir "${Zlib_LIBRARY_DIR};${Zlib_INCLUDE_DIR}")
 set(libpnginclude "${LibPNG_LIBRARY_DIR};${LibPNG_INCLUDE_DIR}")
