@@ -1,11 +1,13 @@
 
 SET_PROPERTY(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
 
-set( FFmpeg_url "https://github.com/FFmpeg/FFmpeg.git")
-set( FFmpeg_tag "n4.2")
-set( FFmpeg_config_command ./configure )
-set( FFmpeg_build_command make )
-
+if (UNIX)
+  set( FFmpeg_url "https://github.com/FFmpeg/FFmpeg.git")
+elseif( WIN32 )
+  set( FFmpeg_url "http://ffmpeg.zeranoe.com/builds/win64/dev/ffmpeg-4.2-win64-dev.zip")
+elseif( APPLE )
+  set( FFmpeg_url "https://ffmpeg.zeranoe.com/builds/macos64/dev/ffmpeg-4.2-macos64-dev.zip")
+endif()
 find_program(YASM_EXE NAMES yasm nasm)
 
 if(NOT YASM_EXE)
@@ -16,13 +18,9 @@ endif()
 
 ExternalProject_Add(FFmpeg_external_download
   DEPENDS ${FFmpeg_depends}
-  GIT_REPOSITORY ${FFmpeg_url}
-  GIT_TAG ${FFmpeg_tag}
+  URL ${FFmpeg_url}
   UPDATE_COMMAND ""
   PATCH_COMMAND ""
-  CONFIGURE_COMMAND <SOURCE_DIR>/configure
-  BUILD_COMMAND ${FFmpeg_build_command} 
-    -j8
   INSTALL_COMMAND ""
   INSTALL_DIR ""
 )
