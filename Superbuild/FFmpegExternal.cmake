@@ -24,6 +24,7 @@ ExternalProject_Add(FFmpeg_external_download
   INSTALL_COMMAND ""
   INSTALL_DIR ""
   CONFIGURE_COMMAND ""
+  BUILD_COMMAND ""
 )
 
 #CACHE PATH "" seems to write the path to a file that I can set 
