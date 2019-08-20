@@ -4,7 +4,7 @@ set( x264_url "https://code.videolan.org/videolan/x264.git")
 set( x264_TAG "origin/stable")
 
 
-##[[
+#[[
   The configure command is required because FFMPEG will try to build these 
   libraries when x264 static does not need them. 
 ]]
@@ -29,11 +29,7 @@ ExternalProject_Add(x264_external_download
     -j8
 )
 
-#CACHE PATH "" seems to write the path to a file that I can set 
-#library paths to. 
-
 ExternalProject_Get_Property(x264_external_download BINARY_DIR)
-ExternalProject_Get_Property(x264_external_download SOURCE_DIR)
 
 set(x264_LIBRARY_DIR ${BINARY_DIR}/x264_build/lib CACHE INTERNAL "")
 set(x264_BINARY_DIR ${BINARY_DIR}/x264_build/bin CACHE INTERNAL "")
