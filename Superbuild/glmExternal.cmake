@@ -36,7 +36,7 @@ ExternalProject_Get_Property(glm_external_download BINARY_DIR)
 ExternalProject_Get_Property(glm_external_download SOURCE_DIR)
 
 if(MSVC)
-  SET(glm_LIBRARY_DIR "${BINARY_DIR};${BINARY_DIR}/Debug;${BINARY_DIR}/Release" CACHE INTERNAL "")
+  SET(glm_LIBRARY_DIR "${BINARY_DIR}/glm;${BINARY_DIR}/glm/Debug;${BINARY_DIR}/glm/Release" CACHE INTERNAL "")
 else()
   SET(glm_LIBRARY_DIR ${BINARY_DIR}/glm CACHE INTERNAL "")
 endif()
