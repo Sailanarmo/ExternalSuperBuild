@@ -31,7 +31,6 @@ SET(teem_DEPENDENCIES "Zlib_external_download;LibPNG_external_download")
 set(zlibincludedir "${Zlib_LIBRARY_DIR};${Zlib_INCLUDE_DIR}")
 set(libpnginclude "${LibPNG_LIBRARY_DIR};${LibPNG_INCLUDE_DIR}")
 set(Master_Depends ${Zlib_LIBRARY_DIR} ${LibPNG_LIBRARY_DIR})
-message(STATUS ${Master_Depends})
 
 string(REPLACE ";" "|" Master_Root "${Master_Depends}")
 
@@ -44,6 +43,7 @@ ExternalProject_Add(Teem_external_download
   GIT_TAG ${teem_GIT_TAG}
   PATCH_COMMAND ""
   INSTALL_DIR ""
+  UPDATE_COMMAND ""
   INSTALL_COMMAND ""
   LIST_SEPARATOR |
   CMAKE_ARGS ${Teem_external_download_CMAKE_ARGS} 

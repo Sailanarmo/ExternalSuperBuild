@@ -3,7 +3,6 @@
 
 
 SET_PROPERTY(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
-SET(boost_GIT_TAG "origin/master")
 set( Boost_Bootstrap_Command )
 
 if( UNIX )
@@ -19,7 +18,7 @@ elseif( WIN32 )
 endif()
 
 if(WIN32)
-  ExternalProject_Add(Boost_external_Download
+  ExternalProject_Add(Boost_external_download
     URL ${Boost_url}
     URL_HASH ${Boost_Hash}
     BUILD_IN_SOURCE 1
@@ -41,7 +40,7 @@ if(WIN32)
     INSTALL_DIR ""
   )
 else()
-  ExternalProject_Add(Boost_external_Download
+  ExternalProject_Add(Boost_external_download
     URL ${Boost_url}
     URL_HASH ${Boost_Hash}
     BUILD_IN_SOURCE 1
@@ -75,7 +74,7 @@ else()
   set(Boost_INCLUDE_DIR ${CMAKE_BINARY_DIR}/Boost/include CACHE INTERNAL "")
 endif()
 
-ExternalProject_Get_Property(Boost_external_Download BINARY_DIR)
+ExternalProject_Get_Property(Boost_external_download BINARY_DIR)
 SET(Boost_DIR ${BINARY_DIR} CACHE INTERNAL "")
 
 add_library(Boost_external STATIC IMPORTED)

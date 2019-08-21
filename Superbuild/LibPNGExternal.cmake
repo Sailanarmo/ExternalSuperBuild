@@ -46,6 +46,7 @@ ExternalProject_Add(LibPNG_external_download
   GIT_REPOSITORY "https://github.com/glennrp/libpng.git"
   GIT_TAG ${libpng_GIT_TAG}
   PATCH_COMMAND ""
+  UPDATE_COMMAND ""
   INSTALL_DIR ""
   INSTALL_COMMAND ""
   LIST_SEPARATOR |

@@ -34,6 +34,7 @@ ExternalProject_Add(Zlib_external_download
   GIT_REPOSITORY "https://github.com/madler/zlib.git"
   GIT_TAG ${zlib_GIT_TAG}
   PATCH_COMMAND ""
+  UPDATE_COMMAND ""
   INSTALL_DIR ""
   INSTALL_COMMAND ""
   CMAKE_CACHE_ARGS

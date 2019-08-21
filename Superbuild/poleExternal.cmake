@@ -10,6 +10,7 @@ ExternalProject_Add(pole_external_download
   GIT_REPOSITORY ${pole_URL}
   GIT_TAG ${pole_TAG}
   PATCH_COMMAND ""
+  UPDATE_COMMAND ""
   INSTALL_DIR ""
   INSTALL_COMMAND ""
 )

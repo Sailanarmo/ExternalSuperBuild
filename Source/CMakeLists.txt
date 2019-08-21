@@ -39,14 +39,5 @@ add_dependencies(Main
   FFmpeg_external_download
   glm_external_download
   pole_external_download
-  )
-
-#  Boost_external_Download
-
-#[[
-add_dependencies(Main
-  Zlib
-  LibPNG_external
-  Teem_external
-  )
-]]
+  Boost_external_download
+)

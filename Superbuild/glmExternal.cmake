@@ -25,6 +25,7 @@ ExternalProject_Add(glm_external_download
   GIT_REPOSITORY ${glm_URL}
   GIT_TAG ${glm_TAG}
   PATCH_COMMAND ""
+  UPDATE_COMMAND ""
   INSTALL_DIR ""
   INSTALL_COMMAND ""
   CMAKE_CACHE_ARGS 
