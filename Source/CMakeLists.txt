@@ -4,10 +4,13 @@ find_package(Threads REQUIRED)
 
 SET(Source_BINARY_DIR ${CMAKE_BINARY_DIR}/Source CACHE INTERNAL "" FORCE)
 
-set(CMAKE_PREFIX_PATH ${FFmpeg_LIBRARY_DIR}/pkgconfig)
+if(UNIX)
+  set(CMAKE_PREFIX_PATH ${FFmpeg_LIBRARY_DIR}/pkgconfig)
+endif()
+
+set(Boost_LIBRARY_DIRS ${Boost_LIBRARY_DIR})
 
 include_directories(${Boost_INCLUDE_DIR})
-set(Boost_LIBRARY_DIRS ${Boost_LIBRARY_DIR})
 include_directories(${Teem_INCLUDE_DIR})
 include_directories(${FFmpeg_INCLUDE_DIR})
 
