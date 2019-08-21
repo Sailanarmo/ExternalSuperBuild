@@ -13,6 +13,7 @@ set(Boost_LIBRARY_DIRS ${Boost_LIBRARY_DIR})
 include_directories(${Boost_INCLUDE_DIR})
 include_directories(${Teem_INCLUDE_DIR})
 include_directories(${FFmpeg_INCLUDE_DIR})
+include_directories(${glm_INCLUDE_DIR})
 
 link_directories(${FFmpeg_LIBRARY_DIR})
 
@@ -35,6 +36,7 @@ add_dependencies(Main
   LibPNG_external_download 
   Teem_external_download
   FFmpeg_external_download
+  glm_external_download
   )
 
 #  Boost_external_Download
